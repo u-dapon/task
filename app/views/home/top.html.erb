@@ -1,0 +1,57 @@
+<br>
+<h2>タスク管理アプリ</h2>
+<p>タスクを登録して、効率的にタスクをこなすそう！</p>
+
+
+
+  <%= form_tag("/home/create",:class => "form-inline") do %>
+
+  <input class="form-control mr-sm-2" type="search"　placeholder="タスク名" name ="nama">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">登録！</button>
+<%end%>
+
+<% if flash[:notice] %>
+<br>
+<div class="alert alert-danger" role="alert">
+  <%= flash[:notice] %>
+</div>
+<% else %>
+<br>
+<br>
+<br>
+<% end %>
+
+<table>
+  <tr>
+    <th>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    </th>
+    <th>
+      タスク名
+    </th>
+  </tr>
+
+<% @post.each do |post|%>
+  <tr>
+    <td>
+      <% if post.finish == 0 %>
+      <%= link_to("/home/#{post.id}/finish",{method:"post"}) do %>
+        <i class="far fa-circle"></i>
+      <% end %>
+      <% else %>
+      <%= link_to("/home/#{post.id}/unfinish",{method:"post"}) do %>
+        <i class="far fa-check-circle"></i>
+      <% end %>
+      <% end %>
+    </td>
+    <td>
+      <%= post.nama %>
+    </td>
+    <td>
+      <%= form_tag("/home/#{post.id}/destroy",:class => "form-inline") do %>
+      &nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-secondary">削除</button>
+      <%end%>
+    </td>
+  </tr>
+<% end %>
+</table>
